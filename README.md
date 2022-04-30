@@ -6,6 +6,7 @@
 ```python
 import tensorflow as tf
 import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 import pandas as pd
 import numpy as np
 from keras.models import Sequential
@@ -29,10 +30,13 @@ if not os.path.isdir('models'):
     
 print('TensorFlow version:', tf.__version__)
 print('Is using GPU?', False if tf.config.list_physical_devices('GPU') == [] else True)
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+# print(tf.config.list_physical_devices('GPU'))
 ```
 
     TensorFlow version: 2.8.0
     Is using GPU? False
+    Num GPUs Available:  0
     
 
 # Importing Dataset
@@ -116,7 +120,7 @@ query_dataset = Dataset(data_path=query_path)
 """Importing the data folder and giving a shuffle"""
 dataset=[]
 labels=[]
-random.seed(42)
+random.seed(420)
 imagePaths = sorted(list(os.listdir("dataset_rahin/training")))
 random.shuffle(imagePaths)
 ```
@@ -157,47 +161,18 @@ labels = lb.fit_transform(labels)
 ```python
 """Splitting dataset into train and test"""
 
-x_train,x_test,y_train,y_test=train_test_split(dataset,labels,test_size=0.3,random_state=42)
+x_train,x_test,y_train,y_test=train_test_split(dataset,labels,test_size=0.3,random_state=420)
 ```
 
 
 ```python
-print(y_train)
+# print(y_train)
 ```
-
-    [[0 0 0 ... 0 0 0]
-     [0 0 0 ... 0 0 0]
-     [0 0 0 ... 0 0 0]
-     ...
-     [0 0 0 ... 0 0 0]
-     [0 0 0 ... 0 0 0]
-     [0 0 0 ... 0 0 0]]
-    
 
 
 ```python
 # y_test = tf.keras.utils.to_categorical(y_test)
 ```
-
-
-    ---------------------------------------------------------------------------
-
-    ValueError                                Traceback (most recent call last)
-
-    ~\AppData\Local\Temp/ipykernel_6964/3506332592.py in <module>
-    ----> 1 y_test = tf.keras.utils.to_categorical(y_test)
-    
-
-    C:\ProgramData\Anaconda3\lib\site-packages\keras\utils\np_utils.py in to_categorical(y, num_classes, dtype)
-         60   [0. 0. 0. 0.]
-         61   """
-    ---> 62   y = np.array(y, dtype='int')
-         63   input_shape = y.shape
-         64   if input_shape and input_shape[-1] == 1 and len(input_shape) > 1:
-    
-
-    ValueError: invalid literal for int() with base 10: 'cat'
-
 
 
 ```python
@@ -207,25 +182,25 @@ print(y_train)
 
 
 ```python
-def get_three_classes(x, y):
-    indices_0, _ = np.where(y == 0.)
-    indices_1, _ = np.where(y == 1.)
-    indices_2, _ = np.where(y == 2.)
+# def get_three_classes(x, y):
+#     indices_0, _ = np.where(y == 0.)
+#     indices_1, _ = np.where(y == 1.)
+#     indices_2, _ = np.where(y == 2.)
 
-    indices = np.concatenate([indices_0, indices_1, indices_2], axis=0)
+#     indices = np.concatenate([indices_0, indices_1, indices_2], axis=0)
     
-    x = x[indices]
-    y = y[indices]
+#     x = x[indices]
+#     y = y[indices]
     
-    count = x.shape[0]
-    indices = np.random.choice(range(count), count, replace=False)
+#     count = x.shape[0]
+#     indices = np.random.choice(range(count), count, replace=False)
     
-    x = x[indices]
-    y = y[indices]
+#     x = x[indices]
+#     y = y[indices]
     
-    y = tf.keras.utils.to_categorical(y)
+#     y = tf.keras.utils.to_categorical(y)
     
-    return x, y
+#     return x, y
 ```
 
 
@@ -254,7 +229,7 @@ print(x_test.shape, y_test.shape)
 
 
 ```python
-class_names = ['aeroplane', 'car', 'bird']
+# class_names = ['aeroplane', 'car', 'bird']
 
 def show_random_examples(x, y, p):
     indices = np.random.choice(range(x.shape[0]), 10, replace=False)
@@ -329,43 +304,43 @@ model = create_model()
 model.summary()
 ```
 
-    Model: "sequential_2"
+    Model: "sequential"
     _________________________________________________________________
      Layer (type)                Output Shape              Param #   
     =================================================================
-     conv2d_12 (Conv2D)          (None, 128, 128, 32)      896       
+     conv2d (Conv2D)             (None, 128, 128, 32)      896       
                                                                      
-     batch_normalization_6 (Batc  (None, 128, 128, 32)     128       
+     batch_normalization (BatchN  (None, 128, 128, 32)     128       
+     ormalization)                                                   
+                                                                     
+     conv2d_1 (Conv2D)           (None, 126, 126, 32)      9248      
+                                                                     
+     max_pooling2d (MaxPooling2D  (None, 63, 63, 32)       0         
+     )                                                               
+                                                                     
+     conv2d_2 (Conv2D)           (None, 63, 63, 64)        18496     
+                                                                     
+     batch_normalization_1 (Batc  (None, 63, 63, 64)       256       
      hNormalization)                                                 
                                                                      
-     conv2d_13 (Conv2D)          (None, 126, 126, 32)      9248      
+     conv2d_3 (Conv2D)           (None, 61, 61, 64)        36928     
                                                                      
-     max_pooling2d_6 (MaxPooling  (None, 63, 63, 32)       0         
+     max_pooling2d_1 (MaxPooling  (None, 30, 30, 64)       0         
      2D)                                                             
                                                                      
-     conv2d_14 (Conv2D)          (None, 63, 63, 64)        18496     
+     conv2d_4 (Conv2D)           (None, 30, 30, 128)       73856     
                                                                      
-     batch_normalization_7 (Batc  (None, 63, 63, 64)       256       
+     batch_normalization_2 (Batc  (None, 30, 30, 128)      512       
      hNormalization)                                                 
                                                                      
-     conv2d_15 (Conv2D)          (None, 61, 61, 64)        36928     
+     conv2d_5 (Conv2D)           (None, 28, 28, 128)       147584    
                                                                      
-     max_pooling2d_7 (MaxPooling  (None, 30, 30, 64)       0         
+     max_pooling2d_2 (MaxPooling  (None, 14, 14, 128)      0         
      2D)                                                             
                                                                      
-     conv2d_16 (Conv2D)          (None, 30, 30, 128)       73856     
+     flatten (Flatten)           (None, 25088)             0         
                                                                      
-     batch_normalization_8 (Batc  (None, 30, 30, 128)      512       
-     hNormalization)                                                 
-                                                                     
-     conv2d_17 (Conv2D)          (None, 28, 28, 128)       147584    
-                                                                     
-     max_pooling2d_8 (MaxPooling  (None, 14, 14, 128)      0         
-     2D)                                                             
-                                                                     
-     flatten_2 (Flatten)         (None, 25088)             0         
-                                                                     
-     dense_2 (Dense)             (None, 98)                2458722   
+     dense (Dense)               (None, 98)                2458722   
                                                                      
     =================================================================
     Total params: 2,746,626
@@ -381,9 +356,9 @@ model.summary()
 h = model.fit(
     x_train/255., y_train,
     validation_data=(x_test/255., y_test),
-    epochs=30, batch_size=128,
+    epochs=10, batch_size=128,
     callbacks=[
-        tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=7),
+        tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=3),
         tf.keras.callbacks.ModelCheckpoint(
             'models/model_{val_accuracy:.3f}.h5',
             save_best_only=True, save_weights_only=False,
@@ -393,40 +368,26 @@ h = model.fit(
 )
 ```
 
-    Epoch 1/30
-    263/263 [==============================] - 680s 3s/step - loss: 2.2678 - accuracy: 0.4360 - val_loss: 4.5806 - val_accuracy: 0.0325
-    Epoch 2/30
-    263/263 [==============================] - 676s 3s/step - loss: 1.3822 - accuracy: 0.6327 - val_loss: 4.5494 - val_accuracy: 0.0665
-    Epoch 3/30
-    263/263 [==============================] - 678s 3s/step - loss: 0.8783 - accuracy: 0.7437 - val_loss: 2.4069 - val_accuracy: 0.4003
-    Epoch 4/30
-    263/263 [==============================] - 680s 3s/step - loss: 0.4940 - accuracy: 0.8447 - val_loss: 1.8677 - val_accuracy: 0.6216
-    Epoch 5/30
-    263/263 [==============================] - 680s 3s/step - loss: 0.2803 - accuracy: 0.9102 - val_loss: 2.7246 - val_accuracy: 0.5283
-    Epoch 6/30
-    263/263 [==============================] - 682s 3s/step - loss: 0.1545 - accuracy: 0.9511 - val_loss: 2.4617 - val_accuracy: 0.5853
-    Epoch 7/30
-    263/263 [==============================] - 682s 3s/step - loss: 0.0853 - accuracy: 0.9747 - val_loss: 2.6135 - val_accuracy: 0.5228
-    Epoch 8/30
-    263/263 [==============================] - 683s 3s/step - loss: 0.0532 - accuracy: 0.9846 - val_loss: 5.0541 - val_accuracy: 0.4457
-    Epoch 9/30
-    263/263 [==============================] - 685s 3s/step - loss: 0.0436 - accuracy: 0.9871 - val_loss: 4.2346 - val_accuracy: 0.5033
-    Epoch 10/30
-    263/263 [==============================] - 686s 3s/step - loss: 0.0390 - accuracy: 0.9888 - val_loss: 3.5663 - val_accuracy: 0.6275
-    Epoch 11/30
-    263/263 [==============================] - 688s 3s/step - loss: 0.0677 - accuracy: 0.9780 - val_loss: 4.9199 - val_accuracy: 0.4472
-    Epoch 12/30
-    263/263 [==============================] - 688s 3s/step - loss: 0.0629 - accuracy: 0.9791 - val_loss: 5.1665 - val_accuracy: 0.2917
-    Epoch 13/30
-    263/263 [==============================] - 689s 3s/step - loss: 0.0647 - accuracy: 0.9781 - val_loss: 4.0479 - val_accuracy: 0.5776
-    Epoch 14/30
-    263/263 [==============================] - 689s 3s/step - loss: 0.0541 - accuracy: 0.9822 - val_loss: 3.6963 - val_accuracy: 0.6172
-    Epoch 15/30
-    263/263 [==============================] - 690s 3s/step - loss: 0.0515 - accuracy: 0.9826 - val_loss: 12.5570 - val_accuracy: 0.1579
-    Epoch 16/30
-    263/263 [==============================] - 691s 3s/step - loss: 0.0364 - accuracy: 0.9877 - val_loss: 4.6706 - val_accuracy: 0.5869
-    Epoch 17/30
-    263/263 [==============================] - 692s 3s/step - loss: 0.0370 - accuracy: 0.9877 - val_loss: 16.4177 - val_accuracy: 0.1304
+    Epoch 1/10
+    263/263 [==============================] - 700s 3s/step - loss: 2.3128 - accuracy: 0.4152 - val_loss: 4.5806 - val_accuracy: 0.1007
+    Epoch 2/10
+    263/263 [==============================] - 659s 3s/step - loss: 1.3365 - accuracy: 0.6471 - val_loss: 4.0562 - val_accuracy: 0.0404
+    Epoch 3/10
+    263/263 [==============================] - 657s 2s/step - loss: 0.7821 - accuracy: 0.7688 - val_loss: 3.1803 - val_accuracy: 0.2289
+    Epoch 4/10
+    263/263 [==============================] - 656s 2s/step - loss: 0.4418 - accuracy: 0.8623 - val_loss: 1.8398 - val_accuracy: 0.6173
+    Epoch 5/10
+    263/263 [==============================] - 657s 2s/step - loss: 0.2670 - accuracy: 0.9143 - val_loss: 4.0880 - val_accuracy: 0.5194
+    Epoch 6/10
+    263/263 [==============================] - 655s 2s/step - loss: 0.1537 - accuracy: 0.9517 - val_loss: 2.4359 - val_accuracy: 0.6348
+    Epoch 7/10
+    263/263 [==============================] - 658s 3s/step - loss: 0.0886 - accuracy: 0.9749 - val_loss: 2.2544 - val_accuracy: 0.6392
+    Epoch 8/10
+    263/263 [==============================] - 657s 2s/step - loss: 0.0583 - accuracy: 0.9846 - val_loss: 2.0674 - val_accuracy: 0.6317
+    Epoch 9/10
+    263/263 [==============================] - 661s 3s/step - loss: 0.0524 - accuracy: 0.9854 - val_loss: 4.1638 - val_accuracy: 0.3934
+    Epoch 10/10
+    263/263 [==============================] - 659s 3s/step - loss: 0.0463 - accuracy: 0.9873 - val_loss: 2.9060 - val_accuracy: 0.4713
     
 
 # Task 6: Final Predictions
@@ -450,7 +411,7 @@ plt.show()
 
 
 ```python
-model= tf.keras.models.load_model('models/model_0.628.h5')
+model= tf.keras.models.load_model('models/model_0.639.h5')
 ```
 
 
