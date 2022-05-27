@@ -325,7 +325,7 @@ for filename in os.listdir(query_dir):
 
 
     
-![png](output_9_1.png)
+![png](outputs/output_9_1.png)
     
 
 
@@ -336,7 +336,7 @@ for filename in os.listdir(query_dir):
 
 
     
-![png](output_9_3.png)
+![png](outputs/output_9_3.png)
     
 
 
@@ -352,7 +352,7 @@ for filename in os.listdir(query_dir):
 
 
     
-![png](output_9_5.png)
+![png](outputs/output_9_5.png)
     
 
 
@@ -363,7 +363,7 @@ for filename in os.listdir(query_dir):
 
 
     
-![png](output_9_7.png)
+![png](outputs/output_9_7.png)
     
 
 
@@ -379,7 +379,7 @@ for filename in os.listdir(query_dir):
 
 
     
-![png](output_9_9.png)
+![png](outputs/output_9_9.png)
     
 
 
@@ -390,7 +390,7 @@ for filename in os.listdir(query_dir):
 
 
     
-![png](output_9_11.png)
+![png](outputs/output_9_11.png)
     
 
 
@@ -406,7 +406,7 @@ for filename in os.listdir(query_dir):
 
 
     
-![png](output_9_13.png)
+![png](outputs/output_9_13.png)
     
 
 
@@ -417,7 +417,7 @@ for filename in os.listdir(query_dir):
 
 
     
-![png](output_9_15.png)
+![png](outputs/output_9_15.png)
     
 
 
@@ -433,7 +433,7 @@ for filename in os.listdir(query_dir):
 
 
     
-![png](output_9_17.png)
+![png](outputs/output_9_17.png)
     
 
 
@@ -444,7 +444,7 @@ for filename in os.listdir(query_dir):
 
 
     
-![png](output_9_19.png)
+![png](outputs/output_9_19.png)
     
 
 
@@ -460,7 +460,7 @@ for filename in os.listdir(query_dir):
 
 
     
-![png](output_9_21.png)
+![png](outputs/output_9_21.png)
     
 
 
@@ -471,7 +471,7 @@ for filename in os.listdir(query_dir):
 
 
     
-![png](output_9_23.png)
+![png](outputs/output_9_23.png)
     
 
 
