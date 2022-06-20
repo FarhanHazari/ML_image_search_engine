@@ -27,7 +27,7 @@ The main objective of this project is to create an image search engine where a q
 - https://www.mediasearch.dev/image
 #
 
-#
 **Detailed Report**: 
 - [Link](https://github.com/khandakerrahin/ML_image_search_engine/blob/main/Report/Image%20Search%20Engine%20-%20Detailed%20Report.pdf)
+#
 #
