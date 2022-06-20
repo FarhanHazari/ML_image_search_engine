@@ -18,6 +18,7 @@ The main objective of this project is to create an image search engine where a q
   - Transfer Learning Models
     - [VGG16](https://github.com/khandakerrahin/ML_image_search_engine/blob/main/M03_vgg16_TL.ipynb)
     - [ResNet50](https://github.com/khandakerrahin/ML_image_search_engine/blob/main/M04_resnet50_TL.ipynb)
+  - [Image Search Engine](https://github.com/khandakerrahin/ML_image_search_engine/blob/main/MX_the_outliers_image_search_v4_50.ipynb) 
 
 #
 **Dataset sources**: 
